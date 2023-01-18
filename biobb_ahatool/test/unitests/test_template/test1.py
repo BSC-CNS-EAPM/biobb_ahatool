@@ -2,7 +2,7 @@ from biobb_ahatool.ahatool.ahatool import Ahatool
 
 
 def main():
-    properties = {
+    prop = {
         "threads": 2,
         "database": "biobb_ahatool/test/data/ahatool/nr_test.fa",
         "binary_path": "/home/albertcs/GitHub/EAPM/AHATool-container/AHATool.sh",
