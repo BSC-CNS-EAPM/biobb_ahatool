@@ -1,0 +1,5 @@
+properties:
+  threads: 2
+  database: biobb_ahatool/test/data/ahatool/nr_test.fa
+  binary_path: /home/albertcs/GitHub/EAPM/AHATool-container/AHATool.sh
+  remove_tmp: false

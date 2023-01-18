@@ -1,0 +1,21 @@
+name: biobb_ahatool
+channels:
+  - conda-forge
+  - bioconda
+  - anaconda
+dependencies:
+  - python
+  - biobb_common>=3.9.0
+  - nb_conda_kernels
+  - pytest
+  - zip
+  - conda
+  - zlib
+  - byobu
+  - samtools
+  - ncurses
+  - bzip2
+  - backports.lzma
+  - libcurl
+  - hmmer
+  - perl
