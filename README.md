@@ -1,12 +1,12 @@
 # biobb_ahatool
 
 ## Introduction
-
-Biobb (BioExcel building blocks) packages are Python building blocks that
-create new layer of compatibility and interoperability over popular
-bioinformatics tools.
-The latest documentation of this package can be found in our readthedocs site:
-[latest API documentation](http://biobb_template.readthedocs.io/en/latest/).
+AHATool an Automatic HMM and Analysis Tool.
+This solution connects the process of creating a
+multiple sequence alignment (MSA) of selected enzymes with a profile Hidden-Markov
+Model (HMM) search against a given database with following biological classification
+and characterization of promising enzymes.
+[latest API documentation](http://biobb_ahatool.readthedocs.io/en/latest/).
 
 ## Version
 v0.1.0 2023.1
@@ -21,40 +21,40 @@ If you have no experience with anaconda, please first take a look to the [New wi
 Once you have the project unzipped in your computer, please follow the next steps to create a new conda environment:
 
 ```console
-cd biobb_template-master
+cd biobb_ahatool-master
 conda env create -f conda_env/environment.yml
 ```
 
 ### Update environment paths
 
-Edit **conda_env/biobb_template.pth** with the paths to your *biobb_template* folder. Example:
+Edit **conda_env/biobb_ahatool.pth** with the paths to your *biobb_ahatool* folder. Example:
 
 ```console
-/home/user_name/projects/biobb_template/
-/home/user_name/projects/biobb_template/biobb_template/biobb_template
+/home/user_name/projects/biobb_ahatool/
+/home/user_name/projects/biobb_ahatool/biobb_ahatool/biobb_ahatool
 ```
 
-Copy the edited **conda_env/biobb_template.pth** file to the site-packages folder of your environment. This folder is in */[anaconda-path]/envs/biobb_template/lib/python3.7/site-packages*, where */[anaconda-path]* is usually */anaconda3* or */opt/conda*.
+Copy the edited **conda_env/biobb_aahtool.pth** file to the site-packages folder of your environment. This folder is in */[anaconda-path]/envs/biobb_ahatool/lib/python3.7/site-packages*, where */[anaconda-path]* is usually */anaconda3* or */opt/conda*.
 
 ```console
-cp conda_env/biobb_template.pth /[anaconda-path]/envs/biobb_template/lib/python3.7/site-packages
+cp conda_env/biobb_aahtool.pth /[anaconda-path]/envs/biobb_ahatool/lib/python3.7/site-packages
 ```
 
 ### Activate environment
 
-Then, activate the recently created *biobb_template* conda environment:
+Then, activate the recently created *biobb_ahatool* conda environment:
 
 ```console
-conda activate biobb_template
+conda activate biobb_ahatool
 ```
 
 ### Create repository
 
-This template includes some folders not standard for a biobb, such as **biobb_template/adapters/**, **biobb_template/notebooks/** or **conda_env/**. For the sake of having a pure biobb structure, you should uncomment the three last lines of the **.gitignore** file before creating a new git repository:
+This template includes some folders not standard for a biobb, such as **biobb_ahatool/adapters/**, **biobb_ahatool/notebooks/** or **conda_env/**. For the sake of having a pure biobb structure, you should uncomment the three last lines of the **.gitignore** file before creating a new git repository:
 
 ```console
-biobb_template/adapters
-biobb_template/notebooks
+biobb_ahatool/adapters
+biobb_ahatool/notebooks
 conda_env
 ```
 Then, inialitize repository:
@@ -72,17 +72,17 @@ Additionally, it's recommendable to configure binary paths in your environment i
 To run tests, please execute the following instruction:
 
 ```console
-pytest /path/to/biobb_template/biobb_template/test/unitests/test_template/test_template.py
+pytest /path/to/biobb_ahatool/biobb_ahatool/test/unitests/test_template/test_template.py
 ```
 Or, if you prefer to show the BioBB output during the test process:
 
 ```console
-pytest -s /path/to/biobb_template/biobb_template/test/unitests/test_template/test_template.py
+pytest -s /path/to/biobb_ahatool/biobb_ahatool/test/unitests/test_template/test_template.py
 ```
 
 ## Documentation
 
-[Click here to find the API Documentation example](https://biobb-template.readthedocs.io/en/latest/template.html) for this template and [here for Command Line documentation](http://biobb_template.readthedocs.io/en/latest/command_line.html).
+[Click here to find the API Documentation example](https://biobb-ahatool.readthedocs.io/en/latest/template.html) for this template and [here for Command Line documentation](http://biobb_aahtool.readthedocs.io/en/latest/command_line.html).
 
 And here you can find [the full documentation](https://biobb-documentation.readthedocs.io/en/latest/) about how to build a new **BioExcel building block** from scratch.
 
