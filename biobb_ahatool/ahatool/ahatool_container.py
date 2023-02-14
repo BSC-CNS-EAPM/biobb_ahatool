@@ -3,6 +3,7 @@
 """Module containing the TemplateContainer class and the command line interface."""
 import argparse
 import os
+import shutil
 from pathlib import Path
 
 from biobb_common.generic.biobb_object import BiobbObject
@@ -24,7 +25,6 @@ class AhatoolContainer(BiobbObject):
         properties (dic):
             * **prefix** (*str*) - ('yyddmmhhmm') The prefix the tool will use for produced files.
             * **start** (*str*) - ('build') Start of execution (search or build).
-            * **binary_path** (*str*) - ("../AHATools/AHATool.sh") Example of executable binary property.
             * **database** (*str*) - ('./nr.fa') Database options: 1. nr_db; 2. custom_db. Path to the database.
             * **evalue** (*float*) - (0.0000000001) e-value (recommended: 1e-10).
             * **threads** (*int*) - (2) Processors options: 1, 2, 4.
@@ -70,8 +70,8 @@ class AhatoolContainer(BiobbObject):
         # 2.1 Modify to match constructor parameters
         # Input/Output files
         self.io_dict = {
-            'in': {'input_file_path1': input_path},
-            'out': {'output_file_path': output_path}
+            'in': {'input_path': input_path},
+            'out': {'output_path': output_path}
         }
 
         # 3. Include all relevant properties here as
@@ -81,10 +81,12 @@ class AhatoolContainer(BiobbObject):
         self.database = properties.get('database', None)
         self.evalue = properties.get('evalue', None)
         self.threads = properties.get('threads', None)
-        self.binary_path = properties.get('binary_path', '../AHATools/AHATool.sh')
+        self.binary_path = properties.get('binary_path', '/home/AHATool/AHATool.sh')
         self.container_volume_path = properties.get('container_volume_path', '/home/projects')
         self.database_folder = properties.get('database_folder', os.getcwd())
         self.container_path = properties.get('container_path', 'docker')
+        self.container_user_id = properties.get('container_user_id', 'root')
+        #self.container_shell_path = properties.get('container_shell_path', '/bin/bash')
         self.properties = properties
 
         # Check the properties
@@ -101,8 +103,8 @@ class AhatoolContainer(BiobbObject):
         self.stage_files()
 
         # Creating temporary folder
-        self.tmp_folder = fu.create_unique_dir()
-        fu.log('Creating %s temporary folder' % self.tmp_folder, self.out_log)
+        #self.tmp_folder = fu.create_unique_dir()
+        #fu.log('Creating %s temporary folder' % self.tmp_folder, self.out_log)
 
         # 5. Prepare the command line parameters as instructions list
         instructions = []
@@ -128,8 +130,8 @@ class AhatoolContainer(BiobbObject):
         # 6. Build the actual command line as a list of items (elements order will be maintained)
         self.cmd = [self.binary_path,
                     ' '.join(instructions),
-                    self.stage_io_dict['out']['output_path'],
-                    self.stage_io_dict['in']['input_path']]
+                    '-i', os.path.basename(self.stage_io_dict['in']['input_path'])]
+        #self.cmd = ['cat /home/AHATool/AHATool.sh > cat.out']
         fu.log('Creating command line with instructions and required arguments', self.out_log, self.global_log)
 
         # 8. Uncomment to check the command line
@@ -139,12 +141,15 @@ class AhatoolContainer(BiobbObject):
         self.run_biobb()
 
         # Copy files to host
-        self.copy_to_host()
+        #self.copy_to_host()
+
+        # Make zip file
+        list_to_zip = [os.path.join(self.stage_io_dict.get('unique_dir'), f) for f in os.listdir(self.stage_io_dict.get('unique_dir'))]
+        fu.zip_list(self.io_dict['out']['output_path'], list_to_zip)
 
         # Remove temporary file(s)
         self.tmp_files.extend([
-            self.stage_io_dict.get("unique_dir"),
-            self.tmp_folder
+            self.stage_io_dict.get('unique_dir')
         ])
         self.remove_tmp_files()
 
@@ -155,13 +160,13 @@ class AhatoolContainer(BiobbObject):
 
 
 def ahatool_container(input_path: str, output_path: str,
-                       properties: dict = None, **kwargs) -> int:
+                      properties: dict = None, **kwargs) -> int:
     """Create :class:`TemplateContainer <template.template_container.TemplateContainer>` class and
     execute the :meth:`launch() <template.template_container.TemplateContainer.launch>` method."""
 
     return AhatoolContainer(input_path=input_path,
-                             output_path=output_path,
-                             properties=properties, **kwargs).launch()
+                            output_path=output_path,
+                            properties=properties, **kwargs).launch()
 
 
 def main():
@@ -183,9 +188,9 @@ def main():
 
     # 11. Adapt to match Class constructor (step 2)
     # Specific call of each building block
-    ahatool_container(input_path1=args.input_path,
-                       output_path=args.output_file_path,
-                       properties=properties)
+    ahatool_container(input_path=args.input_path,
+                      output_path=args.output_file_path,
+                      properties=properties)
 
 
 if __name__ == '__main__':
