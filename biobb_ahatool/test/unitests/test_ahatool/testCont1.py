@@ -6,11 +6,11 @@ def main():
         "threads": 2,
         "database": "/home/albertcs/GitHub/EAPM/biobb_ahatool/biobb_ahatool/test/data/ahatool/nr_test.fa",
         "remove_tmp": False,
-        "container_image": "bsceapm/ahatool:1.9"
+        "container_image": "ahatool"
     }
 
     rcode = ahatool_container(
-        input_path="/home/albertcs/GitHub/EAPM/biobb_ahatool/biobb_ahatool/test/data/ahatool/test.fasta",
+        input_path="/home/albertcs/GitHub/EAPM/biobb_ahatool/biobb_ahatool/test/data/ahatool/Hyaluronidase_1.hmm",
         output_path="/home/albertcs/GitHub/EAPM/biobb_ahatool/biobb_ahatool/test/data/ahatool/output.zip",
         properties=prop)
 

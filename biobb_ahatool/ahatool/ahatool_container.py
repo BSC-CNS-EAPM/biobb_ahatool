@@ -20,7 +20,7 @@ class AhatoolContainer(BiobbObject):
     | AHATool an Automatic HMM and Analysis Tool.
 
     Args:
-        input_path (str): Path to the input file. File type: input. Accepted formats: FASTA (edam:format_1929), fasta (edam:format_1929),HMM (edam:format_2075), ALN (edam:format_1391).
+        input_path (str): Path to the input file. File type: input. Accepted formats: FASTA (edam:format_1929), fasta (edam:format_1929),hmm (edam:format_2075), aln (edam:format_1391).
         output_path (str): Path to the output file. File type: output. Accepted formats: zip (edam:format_3987).
         properties (dic):
             * **prefix** (*str*) - ('yyddmmhhmm') The prefix the tool will use for produced files.
@@ -115,11 +115,11 @@ class AhatoolContainer(BiobbObject):
             instructions.append(f'-s {self.start}')
             fu.log('Appending optional start', self.out_log, self.global_log)
         if self.database:
-            if not os.path.basename(self.database) == 'nr.fa':
-                instructions.append(f'-d /home/database/{os.path.basename(self.database)}')
-                pathdb = Path(self.database).parent
-                self.container_generic_command = f"run -v {pathdb}:/home/database"
-                fu.log('Appending optional database', self.out_log, self.global_log)
+            #if not os.path.basename(self.database) == 'nr.fa':
+            instructions.append(f'-d /home/database/{os.path.basename(self.database)}')
+            pathdb = Path(self.database).parent
+            self.container_generic_command = f"run -v {pathdb}:/home/database"
+            fu.log('Appending optional database', self.out_log, self.global_log)
         if self.evalue:
             instructions.append(f'-e {self.evalue}')
             fu.log('Appending optional evalue', self.out_log, self.global_log)
