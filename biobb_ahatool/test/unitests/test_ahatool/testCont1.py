@@ -6,7 +6,7 @@ def main():
         "threads": 2,
         "database": "/home/albertcs/GitHub/EAPM/biobb_ahatool/biobb_ahatool/test/data/ahatool/nr_test.fa",
         "remove_tmp": False,
-        "container_image": "ahatool"
+        "container_image": "bsceapm/ahatool:2.2"
     }
 
     rcode = ahatool_container(

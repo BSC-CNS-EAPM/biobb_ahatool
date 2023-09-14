@@ -1,5 +1,5 @@
 .idea
 biobb_ahatool/ahatool/__pycache__/*
 biobb_ahatool/__pycache__/*
-env.yaml
+
 biobb_ahatool/test/data/ahatool/nr_test.fa.ssi

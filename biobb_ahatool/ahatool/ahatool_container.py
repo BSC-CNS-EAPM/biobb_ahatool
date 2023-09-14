@@ -35,7 +35,6 @@ class AhatoolContainer(BiobbObject):
             * **container_volume_path** (*str*) - ('/home/projects') Container volume path definition.
             * **container_working_dir** (*str*) - ('/home/projects') Container working directory definition.
             * **container_user_id** (*str*) - (None) Container user_id definition.
-            * **container_shell_path** (*str*) - ('/bin/bash') Path to default shell inside the container.
     Examples:
         This is a use example of how to use the building block from Python::
             from biobb_ahatool.ahatool.ahatool_container import aahtool_container
@@ -83,10 +82,8 @@ class AhatoolContainer(BiobbObject):
         self.threads = properties.get('threads', None)
         self.binary_path = properties.get('binary_path', '/home/AHATool/AHATool.sh')
         self.container_volume_path = properties.get('container_volume_path', '/home/projects')
-        self.database_folder = properties.get('database_folder', os.getcwd())
         self.container_path = properties.get('container_path', 'docker')
         self.container_user_id = properties.get('container_user_id', 'root')
-        #self.container_shell_path = properties.get('container_shell_path', '/bin/bash')
         self.properties = properties
 
         # Check the properties
@@ -102,10 +99,6 @@ class AhatoolContainer(BiobbObject):
         if self.check_restart(): return 0
         self.stage_files()
 
-        # Creating temporary folder
-        #self.tmp_folder = fu.create_unique_dir()
-        #fu.log('Creating %s temporary folder' % self.tmp_folder, self.out_log)
-
         # 5. Prepare the command line parameters as instructions list
         instructions = []
         if self.prefix:
@@ -115,9 +108,11 @@ class AhatoolContainer(BiobbObject):
             instructions.append(f'-s {self.start}')
             fu.log('Appending optional start', self.out_log, self.global_log)
         if self.database:
-            #if not os.path.basename(self.database) == 'nr.fa':
+            # Get the path of the database in the container
             instructions.append(f'-d /home/database/{os.path.basename(self.database)}')
+            # Get the folder of the database
             pathdb = Path(self.database).parent
+            # Link the folder of the database to a volumme in the container
             self.container_generic_command = f"run -v {pathdb}:/home/database"
             fu.log('Appending optional database', self.out_log, self.global_log)
         if self.evalue:
@@ -131,7 +126,6 @@ class AhatoolContainer(BiobbObject):
         self.cmd = [self.binary_path,
                     ' '.join(instructions),
                     '-i', os.path.basename(self.stage_io_dict['in']['input_path'])]
-        #self.cmd = ['cat /home/AHATool/AHATool.sh > cat.out']
         fu.log('Creating command line with instructions and required arguments', self.out_log, self.global_log)
 
         # 8. Uncomment to check the command line
@@ -140,10 +134,7 @@ class AhatoolContainer(BiobbObject):
         # Run Biobb block
         self.run_biobb()
 
-        # Copy files to host
-        #self.copy_to_host()
-
-        # Make zip file
+        # Make zip file & copy files to host
         list_to_zip = [os.path.join(self.stage_io_dict.get('unique_dir'), f) for f in os.listdir(self.stage_io_dict.get('unique_dir'))]
         fu.zip_list(self.io_dict['out']['output_path'], list_to_zip)
 
